@@ -1,63 +1,122 @@
+//Make Tree
 #include<bits/stdc++.h>
-#include<vector>
-
 using namespace std;
 
-struct Node {
+struct Node{
     int data;
     Node* left;
     Node* right;
-
+    Node* parent;
+    /*bool visited; //Maybe I will use this*/
 };
+Node* root = nullptr; // my tree is empty
 
-Node* createNode(int data){
-    Node* node = new Node();
-    node->data = data;
-    node->left = nullptr;
-    node->right = nullptr;
-    return node;
-
+bool isLeaf(Node* root){
+    if(root->left == NULL && root->right == NULL){
+        cout <<"it is a leaf ";
+        return true;
+    }
+    cout <<"it is not a leaf ";
+    return false;
 }
 
-void printArray(const vector<int>& arr) {
-    for (auto val : arr) {
-    cout << val << " ";
+Node* makeNode(int data){
+    Node* temp;
+    temp = new Node();
+    temp->data = data;
+    temp->left = nullptr;
+    temp->right = nullptr;
+    temp->parent = nullptr;
+    return temp;
+}
+
+Node* insertNode(Node* root, int data){
+    
+    if(root == NULL){root = makeNode(data);} // creat the node in the tree 
+    else if(data < root->data ){ // check if node is smaller
+         root->left = insertNode(root->left, data);
+         root->left->parent = root;
+    }else if(data > root->data ){ // check if node is greater
+         root->right = insertNode(root->right, data);
+         root->right->parent = root;
+    }
+    return root;
+}
+
+Node* findMaxNode(Node* root){
+    if(root == NULL){cout <<"No tree.\n";}
+    if(root->right == NULL){ return root;} // if right child is null return parent
+        return findMaxNode(root->right); // go right  
+}
+
+Node* findMinNode(Node* root){
+    if(root == NULL){cout <<"No tree.\n";}
+         if(root->left == NULL){return root;} // if left child is null return parent
+            return findMinNode(root->left); // go left    
+}
+
+Node* findNextNode(Node* root){
+    if (root == NULL){cout << "No node";}
+    if (root->right == NULL){return root;}
+         return findMinNode(root->right);
+}
+
+Node* findPrevNode(Node* root){
+    if(root == NULL){cout <<"No tree found.\n";}
+    if(root->left != NULL){return findMaxNode(root->left); }
+        return root;
+}
+
+Node* deleteNode(Node* root, int data){
+    if (root == NULL) {return root; }
+    if(isLeaf(root) == true){
+        free(root); return findMaxNode(root);
+    }
+    if (data < root->data){
+                root->left = deleteNode(root->left, data); 
+    }else if (data > root->data) {
+        root->right = deleteNode(root->right, data);
+    }else if(data == root->data){}
+          
+    return root;
+}
+
+void makeTree(vector<int> ints){
+    for(auto i: ints){
+        root = insertNode(root, i);
     }
 }
 
-class CompleteTree{
-    vector<vector<int> > Array;
-    private:
-        Node* root;
+// void printTree(Node* root){
+    
+//     cout <<"My tree nodes are: "<< root->data << endl;
+// }
 
-        int parent(int i) {return (i - 1) / 2; }
-        int left(int i) {return 2 * i + 1;}
-        int right(int i) {return 2 * i + 2;}
+int main(){
 
-    public:
+vector<int> b = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
-    void fromArray(vector<int> list) {
-        vector<Node*> nodes;
+makeTree(b); // insert a vector of ints to create tree
 
-        for (int value : list) {
-        Node* node = createNode(value);
-        nodes.push_back(node);
-        }
-    }
+root = insertNode(root, 14);
+root = insertNode(root, 15);
+Node* min = findMinNode(root);
+Node* max = findMaxNode(root);
+Node* prev = findPrevNode(max);
 
+//printTree(root);
 
-};
+cout<<"\nMin node is: "<< min->data;
 
-int main()
-{
-    CompleteTree MyTree;
+cout<<"\nNext node is: "<< findNextNode(min)->data;
+cout<<"\nNext node is: "<< findNextNode(min->right)->data;
+cout<<"\nNext node is: "<< findNextNode(min->right->right)->data;
 
-    vector<int> myvec;
-    int elem;
-    cin >> elem;
-    myvec.push_back(elem);
-    MyTree.fromArray(myvec);
-    printArray(myvec);
+cout<<"\nMax node is: "<< max->data;
 
-    return 0;
+cout<<"\n"<< isLeaf(min);
+
+cout<<"\nPrev node is: "<< prev->data;
+
+return 0;
 }
