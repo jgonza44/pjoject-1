@@ -11,12 +11,12 @@ struct Node{
 };
 Node* root = nullptr; // my tree is empty
 
-bool isLeaf(Node* root){
-    if(root->left == NULL && root->right == NULL){
-        cout <<"it is a leaf ";
+bool isLeaf(Node* node){
+    if(node->left == NULL && node->right == NULL){
+        //cout <<"it is a leaf ";
         return true;
     }
-    cout <<"it is not a leaf ";
+    //cout <<"it is not a leaf ";
     return false;
 }
 
@@ -32,7 +32,7 @@ Node* makeNode(int data){
 
 Node* insertNode(Node* root, int data){
     
-    if(root == NULL){root = makeNode(data);} // creat the node in the tree 
+    if(root == NULL){root = makeNode(data);} // creat the node in the tree
     else if(data < root->data ){ // check if node is smaller
          root->left = insertNode(root->left, data);
          root->left->parent = root;
@@ -57,14 +57,16 @@ Node* findMinNode(Node* root){
 
 Node* findNextNode(Node* root){
     if (root == NULL){cout << "No node";}
-    if (root->right == NULL){return root;}
+    else if(root->right == NULL){return root;}
          return findMinNode(root->right);
 }
 
 Node* findPrevNode(Node* root){
-    if(root == NULL){cout <<"No tree found.\n";}
-    if(root->left != NULL){return findMaxNode(root->left); }
-        return root;
+    Node* prev = root->parent;
+    if(root == NULL){cout <<"No tree found. "; return root;}
+    else if(root->left == NULL){return prev;}
+    else {return findMaxNode(root->left); }
+        return prev;
 }
 
 Node* deleteNode(Node* root, int data){
@@ -114,7 +116,7 @@ cout<<"\nNext node is: "<< findNextNode(min->right->right)->data;
 
 cout<<"\nMax node is: "<< max->data;
 
-cout<<"\n"<< isLeaf(min);
+//cout<<"\n"<< isLeaf(min);
 
 cout<<"\nPrev node is: "<< prev->data;
 
