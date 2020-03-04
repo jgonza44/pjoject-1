@@ -80,13 +80,12 @@ AVL tree is
 
 AVL tree after delete 
 (8) 
-(4) (12) 
+(5) (12) 
 (2) (6) (10) (14) 
-(1) (3) (5) (7) (9) (11) (13) (15) 
+(1) (3) (7) (9) (11) (13) (15) 
 
 The max node is 15
 The min node is 1
 The search node is 3
 The next node is 9
 The prev node is 7
-
