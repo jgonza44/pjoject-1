@@ -284,8 +284,12 @@ int main()
 {
 	Node* root = NULL;
 	int num, newint, com;
-	com = 0;
+	//com = 0;
 	vector<int> b = {};
+	
+	clock_t time_req;
+
+    time_req = clock();
 
 	// cout << "How many nodes will you enter?\n";
 	// cin >> num;
@@ -306,6 +310,8 @@ int main()
 
     cout << "\nAVL tree is \n";
 	print(root);
+	
+	time_req = clock() - time_req;
 	//deleteNode(root, 4);
 	//cout << "\nAVL tree after delete \n";
 	//print(root);
@@ -314,6 +320,10 @@ int main()
     cout<< "\nThe min node is "<<findMinNode(root)->data;
     cout<< "\nThe next node is "<<findNextNode(root,5387)->data;
     cout<< "\nThe prev node is "<<findPrevNode(root,5387)->data;
+    cout<< "\nThe time is "<< findPrevNode(root,5387)->data;
+    cout << "\nAVL time is " << (float)time_req/CLOCKS_PER_SEC << " seconds" << endl;
+
+
 	return 0;
 }
 
