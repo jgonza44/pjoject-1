@@ -20,3 +20,7 @@ The max node is 10000
 The min node is 1
 The next node is 5388
 The prev node is 5386
+The time is 5386
+AVL time is 0.009602 seconds
+
+
